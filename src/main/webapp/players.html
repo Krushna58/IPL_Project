@@ -1,0 +1,300 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>Players Operations </title>
+	
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        .form-section {
+            background-color: white;
+            padding: 15px;
+            border: 1px solid #ccc;
+            max-width: 400px;
+            margin: auto;
+            display: none;
+        }
+
+        h3 {
+            text-align: center;
+            color:blue;
+        }
+        h2{
+         text-align: center;
+            color:blue;
+        
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        input[type="submit"] {
+            margin-top: 15px;
+            padding: 8px;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        a {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        
+        button {
+        padding: 10px 15px;
+        margin: 5px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+         text-align: center;
+       display:center;
+    }
+    
+        #btn{
+       text-align: center;
+       display:center;
+
+    }
+
+    button:hover {
+        background-color: #0056b3;
+         
+    }
+    </style>
+
+</head>
+
+<body>
+	
+	<h2>Players Operations </h2>
+
+<div id="btn">
+	<button onclick = "showForm('add')">Add Player </button>
+  <button onclick="showForm('update')">Update Player</button>
+  <button onclick="showForm('delete')">Delete Player</button>
+
+	<button onclick = "location.href='PlayerViewServlet'">View all Players </button>
+	<button onclick = "location.href='viewPlayerByIdAndSeason.html'">View players by Team and Season</button>
+	
+</div>
+
+
+<div id = "addForm" class="form-section">
+	<h3>Add Player </h3>
+
+	<form action= "PlayerAddServlet" method="post">
+
+            <label for = "teamSelectForAdd">Select Team:</label>
+            <select id="teamSelectForAdd" name="t_id"> </select>
+
+	<label for="pName">Enter Player Name: </label>
+	<input type="text" id="pName" name="pName" required>
+
+	<label for="role">Enter Role (Batsman, Bowler, All-rounder, etc.)</label>
+	<input type="text" id="role" name="role" required>
+
+	<label for="inns">Enter total number of Innings: </label>
+	<input type="number" id='role' name='inns'>
+
+	<label for='notOut'>Enter total number of Not Outs: </label>
+	<input type="number" id='notOut' name='notOut'>
+
+	<label for='runs'>Enter total Runs: </label>
+	<input type="number" id='runs' name='runs'>
+
+	<label for='hScore'>Enter Highest Score: </label>
+	<input type='number' id='hScore' name='hScore'>
+
+	<label for='matches'>Enter number of Matches played: </label>
+	<input type='number' id='matches' name='matches'>
+
+	<input type='submit' value="add player">
+	
+	</form>
+	 <a href="players.html"> back to menu</a>
+</div>
+
+<!-- Update Player Section ----------------------------------------------------->
+<div id="updateForm" class="form-section">
+       <h3>Update Player</h3>
+  
+            <label for = "t_id_update">Select Team:</label>
+           <select id="t_id_update" name="t_id_update"> </select>
+
+ 
+  
+  <label for="p_id_update">Enter Player id:</label>
+  <input type="number" id="p_id_update">
+
+  <label for="pName_update">Enter Player Name:</label>
+  <input type="text" id="pName_update">
+
+  <label for="role_update">Enter Role (Batsman, Bowler, All-rounder, etc.)</label>
+  <input type="text" id="role_update">
+
+  <label for="inns_update">Enter total number of Innings:</label>
+  <input type="number" id="inns_update">
+
+  <label for="notOut_update">Enter total number of Not Outs:</label>
+  <input type="number" id="notOut_update">
+
+  <label for="runs_update">Enter total Runs:</label>
+  <input type="number" id="runs_update">
+
+  <label for="hScore_update">Enter Highest Score:</label>
+  <input type="number" id="hScore_update">
+
+  <label for="matches_update">Enter number of Matches played:</label>
+  <input type="number" id="matches_update">
+
+  <button type="button" onclick="updatePlayer()">Update Player</button>
+   <a href="players.html"> Back to Menu</a>
+</div>
+
+<!-- Delete--------------------------------------    -->
+    <div class="form-section" id="delete">
+        <h2>Delete Player</h2>
+        <input type="number" id="playerId" placeholder="Enter Player ID" required>
+        <button onclick="deletePlayer()">Delete Player</button>
+        <p id="result"></p>
+        <a href="players.html"> Back to Menu</a>
+    </div>
+    <a href="index.html"> Back to Main Menu</a>
+
+<script>
+	function showForm(formType){
+		document.getElementById('addForm').style.display = 'none';
+		document.getElementById('updateForm').style.display = 'none';
+		 document.getElementById('delete').style.display = 'none';
+
+		if (formType === 'add'){
+			document.getElementById('addForm').style.display = 'block';
+			
+		} else if(formType === 'update'){
+		      document.getElementById('updateForm').style.display = 'block';
+		  } else if(formType === 'delete'){
+		      document.getElementById('delete').style.display = 'block';
+		  }	
+	}
+	
+	//<!-- update player function_ for_ put method --------------------------->
+	function updatePlayer() {
+  const data = {
+    P_ID: document.getElementById('p_id_update').value.trim(),
+   T_ID: document.getElementById('t_id_update').value.trim(),
+
+    P_Name: document.getElementById('pName_update').value.trim(),
+    Role: document.getElementById('role_update').value.trim(),
+    Inns: document.getElementById('inns_update').value.trim(),
+    Not_Out: document.getElementById('notOut_update').value.trim(),
+    Runs: document.getElementById('runs_update').value.trim(),
+    Highest_Score: document.getElementById('hScore_update').value.trim(),
+    Matches: document.getElementById('matches_update').value.trim()
+  };
+
+  fetch('PlayerUpdateServlet', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    // converts a JavaScript object into a JSON string.
+    body: JSON.stringify(data)     // send JSON body matching Java field names  
+  })
+  .then(response => response.text())
+  .then(html => document.body.innerHTML = html)
+  .catch(error => console.error('Error:', error));
+}
+//------end update-----------------------------
+
+// deletePlayer-----------------------
+    async function deletePlayer() {
+            const playerId = document.getElementById("playerId").value.trim();
+            const result = document.getElementById("result");
+
+            try {
+                const response = await fetch(`PlayerDeleteServlet?P_ID=${playerId}`, {
+                    method: "DELETE",
+                });
+
+                const text = await response.text();
+                result.innerHTML = text;
+                result.style.color = "green";
+            } catch (error) {
+                result.textContent = "Error deleting player. Please try again.";
+                result.style.color = "red";
+            }
+        }
+        
+    //-------------------------------------------
+    
+ //- list of team name and id
+async function loadTeams() {
+  try {
+    const res = await fetch("listTeamServlet");
+    const data = await res.json();
+
+    const dropdown = document.getElementById("teamSelectForAdd");
+      const dropdownForUpdate = document.getElementById("t_id_update");
+    
+    dropdown.innerHTML = "<option value=''>--Select Team--</option>";
+    dropdownForUpdate.innerHTML = "<option value=''>--Select Team--</option>";
+  
+
+    for (const [name, id] of Object.entries(data)) {
+      const option = document.createElement("option");
+      //passed as t_id to backend
+      option.value = id;     
+      option.textContent = name;
+    //  console.log(id + name);
+      dropdown.appendChild(option);
+   
+    }
+    
+    for (const [name, id] of Object.entries(data)) {
+      const optionForUpdate = document.createElement("option");
+      //passed as t_id to backend
+      optionForUpdate.value = id;     
+      optionForUpdate.textContent = name;
+    //  console.log(id + name);
+      dropdownForUpdate.appendChild(optionForUpdate);
+   
+    }
+  } catch (error) {
+    console.error("Error loading teams:", error);
+  }
+}
+//------------------------------------------------------
+
+
+// load function on windows on load
+ window.onload = function() {
+   
+    loadTeams();     // Load and populate teams
+};
+</script>
+
+
+</body>
+
+</html>

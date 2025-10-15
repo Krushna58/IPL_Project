@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Seasons</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        /* Styling the list */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            background-color: #fff;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        /* If there are no seasons */
+        p {
+            font-size: 1rem;
+            color: #e74c3c;
+        }
+
+        /* Styling the Back to Menu link */
+        a {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+            font-size: 1.1rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <script>
+        // Async function to fetch and display seasons
+        async function fetchSeasons() {
+            try {
+                const response = await fetch('viewSeason');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch seasons');
+                }
+
+                const seasons = await response.json();
+                const seasonsList = document.getElementById('seasonsList');
+                seasonsList.innerHTML = '';
+
+                if (seasons.length === 0) {
+                    seasonsList.innerHTML = '<p>No seasons found.</p>';
+                } else {
+                    seasons.forEach(season => {
+                        const li = document.createElement('li');
+                        li.textContent = season;
+                        seasonsList.appendChild(li);
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching seasons:', error);
+                document.getElementById('seasonsList').innerHTML = '<p>Error fetching seasons.</p>';
+            }
+        }
+
+        // Fetch the seasons when the page loads
+        window.onload = fetchSeasons;
+    </script>
+</head>
+<body>
+    <h1>Seasons</h1>
+    <ul id="seasonsList"></ul>
+    <a href="seasonOpration.html">Back to Menu</a>
+</body>
+</html>
+

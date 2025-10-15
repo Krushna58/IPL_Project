@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+ 
+  <servlet>
+        <servlet-name>addTeam</servlet-name>
+        <servlet-class>com.ipl.teamServlet.TeamAddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addTeam</servlet-name>
+        <url-pattern>/teamAddServlet</url-pattern>
+    </servlet-mapping>
+
+  <servlet>
+        <servlet-name>TeamUpdate</servlet-name>
+        <servlet-class>com.ipl.teamServlet.TeamUpdateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TeamUpdate</servlet-name>
+        <url-pattern>/teamUpdateServlet</url-pattern>
+    </servlet-mapping>
+    
+   
+
+      <servlet>
+        <servlet-name>TeamView</servlet-name>
+        <servlet-class>com.ipl.teamServlet.TeamViewServlet</servlet-class>
+      </servlet>
+    <servlet-mapping>
+        <servlet-name>TeamView</servlet-name>
+        <url-pattern>/teamViewServlet</url-pattern>
+    </servlet-mapping>
+     
+ 
+    
+      <servlet>
+          <servlet-name>TeamDeleteByName</servlet-name>
+          <servlet-class>com.ipl.teamServlet.TeamDeleteServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+          <servlet-name>TeamDeleteByName</servlet-name>
+          <url-pattern>/teamDeleteServlet</url-pattern>
+      </servlet-mapping>
+      
+      <servlet>
+          <servlet-name>DeleteTeamById</servlet-name>
+          <servlet-class>com.ipl.teamServlet.DeleteTeamById</servlet-class>
+      </servlet>
+      <servlet-mapping>
+          <servlet-name>DeleteTeamById</servlet-name>
+          <url-pattern>/deleteTeamById</url-pattern>
+      </servlet-mapping>
+      
+      <servlet>
+          <servlet-name>TeamList</servlet-name>
+          <servlet-class>com.ipl.teamServlet.ListTeamServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+          <servlet-name>TeamList</servlet-name>
+          <url-pattern>/listTeamServlet</url-pattern>
+      </servlet-mapping>
+      
+      
+      <servlet>
+            <servlet-name>PlayerAddServlet</servlet-name>
+            <servlet-class>com.ipl.playerServlet.PlayerAddServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+            <servlet-name>PlayerAddServlet</servlet-name>
+              <url-pattern>/PlayerAddServlet</url-pattern>
+      </servlet-mapping>
+      
+
+      <servlet>
+            <servlet-name>PlayerView</servlet-name>
+            <servlet-class>com.ipl.playerServlet.PlayerViewServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+            <servlet-name>PlayerView</servlet-name>
+              <url-pattern>/PlayerViewServlet</url-pattern>
+      </servlet-mapping>
+      
+      
+      <servlet>
+            <servlet-name>PlayerUpdateServlet</servlet-name>
+            <servlet-class>com.ipl.playerServlet.PlayerUpdateServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+            <servlet-name>PlayerUpdateServlet</servlet-name>
+              <url-pattern>/PlayerUpdateServlet</url-pattern>
+      </servlet-mapping>
+      
+            <servlet>
+            <servlet-name>PlayerDeleteServlet</servlet-name>
+            <servlet-class>com.ipl.playerServlet.PlayerDeleteServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+            <servlet-name>PlayerDeleteServlet</servlet-name>
+              <url-pattern>/PlayerDeleteServlet</url-pattern>
+      </servlet-mapping>
+    
+    
+                <servlet>
+            <servlet-name>PlayerByIdAndSeason</servlet-name>
+            <servlet-class>com.ipl.playerServlet.ViewPlayersByIdAndSeasonServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+            <servlet-name>PlayerByIdAndSeason</servlet-name>
+              <url-pattern>/viewPlayerByIdAndSeason</url-pattern>
+      </servlet-mapping>
+      
+       <servlet>
+            <servlet-name>SeasonAdd</servlet-name>
+            <servlet-class>com.ipl.seasonServlet.AddSeasonServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+            <servlet-name>SeasonAdd</servlet-name>
+              <url-pattern>/addSeason</url-pattern>
+      </servlet-mapping>
+      
+             <servlet>
+            <servlet-name>SeasonDelete</servlet-name>
+            <servlet-class>com.ipl.seasonServlet.DeleteSeasonServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+            <servlet-name>SeasonDelete</servlet-name>
+              <url-pattern>/deleteSeason</url-pattern>
+      </servlet-mapping>
+      
+      <servlet>
+      <servlet-name>viewSeason</servlet-name>
+          <servlet-class>com.ipl.seasonServlet.ViewSeasonServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+      <servlet-name>viewSeason</servlet-name>
+          <url-pattern>/viewSeason</url-pattern>
+      </servlet-mapping>
+    
+   
+</web-app>

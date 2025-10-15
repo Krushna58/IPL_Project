@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Team Operations</title>
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        .form-section {
+            background-color: white;
+            padding: 15px;
+            border: 1px solid #ccc;
+            max-width: 400px;
+            margin: auto;
+            display: none;
+        }
+
+        h3,h2 {
+            text-align: center;
+            color:blue;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        input[type="submit"] {
+            margin-top: 15px;
+            padding: 8px;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        a {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        
+        button {
+        padding: 10px 15px;
+        margin: 5px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        text-align:center;
+        
+    }
+    #btn{
+       text-align: center;
+       display:center;
+
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+    </style>
+    
+
+
+</head>
+<body>
+
+    <h2>Team Operations</h2>
+    <div id="btn">
+
+    <button onclick="showForm('add')">Add Team</button>
+    <button onclick="showForm('update')">Update Team</button>
+     <button onclick="showForm('delete')">Delete Team using Team name</button>
+     <button onclick="showForm('deleteById')">Delete Team using ID</button>
+   
+    <button onclick="location.href='teamViewServlet'">View all Teams</button>
+   <div>
+   
+
+    <!-- Add Team Form -->
+    <div id="addForm" class="form-section">
+        <h3>Add Team</h3>
+        <form action="teamAddServlet" method="post">
+           <label for="name">Team Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="city">City Name:</label>
+            <input type="text" id="city" name="city" required>
+
+      <!--      <label for="season">Season:</label>
+            <input type="number" id="season" name="season" required>
+      -->
+            <label for="addSeason">Select Season:  </label>
+          <select id="addSeason" name="season" required> </select>
+          
+            <input type="submit" value="Add Team">
+        </form>
+    </div>
+
+    <!-- Update Team Form ---------------------------->
+    <div id="updateForm" class="form-section">
+        <h3>Update Team</h3>
+      <!--
+            <label for="t_id_update"> Old Team ID:</label>
+            <input type="number" id="t_id_update" name="t_id" required>
+          -->
+          
+            <label for = "t_id_update">Select Old Team:</label>
+            <select id="t_id_update" name="t_id"> </select>
+                        
+                        
+            <label for="name_update">New Team Name:</label>
+            <input type="text" id="name_update" name="name" required>
+
+            <label for="city_update">New City:</label>
+            <input type="text" id="city_update" name="city" required>
+
+       <!--     <label for="season_update">Old Season:</label>
+            <input type="number" id="season_update" name="season" required>
+           -->
+             <label for="updateSeason">Select Season:  </label>
+             <select id="updateSeason" name="season" required> </select>
+          
+          
+             <p id="updateResult"></p>
+            
+            <button type= "button" onclick="updateTeam()">Update Team</button>
+          
+    </div>
+    
+
+   <!-- Delete by name and season ---------------------------->
+              <div id = "deleteForm" class="form-section">
+                <h2> Delete Team By Team name and Season </h2>
+                   
+              <!--     <label for="deleteTeamByName-Name">Enter Old Team Name: </label>
+                      <input type="text" id ="deleteTeamByName-Name" name = "name" required>
+              -->
+              
+                        <label for = "teamSelectForDelete">Select Team:</label>
+                        <select id="teamSelectForDelete" name="name"> </select>
+                      
+                        <label for="deleteByName_Season">Select Season:  </label>
+                         <select id="deleteByName_Season" name="season" required> </select>
+                      
+                       <p id="deleteByNameAndSeasonResult"></p>
+                       
+                      <input type="button" onclick="deleteTeamByNameAndSeason()" value="Delete Team">
+              </div>
+    
+    <!-- Delete by Team ID---------------------------->
+              <div id="deleteByIDForm" class="form-section">
+                <h2>Delete Team By using Team ID and Season</h2>
+
+                <label for="t_idInDeleteByIdForm">Enter Team ID:</label>
+                <input type="number" id="t_idInDeleteByIdForm" placeholder="Enter team ID" required>
+
+                <button onclick="deleteTeamById()">Delete Team</button>
+
+                <p id="deleteByIDFormResult"> </p>
+                <a href="team.html">Back to Menu</a>
+                
+              </div>
+
+
+    <a href="index.html"> Back to Main Menu</a>
+
+   
+   
+        <script>
+        function showForm(formType) {
+            document.getElementById('addForm').style.display = 'none';
+            document.getElementById('updateForm').style.display = 'none';
+            document.getElementById('deleteForm').style.display = 'none';
+              document.getElementById('deleteByIDForm').style.display = 'none';
+
+            if (formType === 'add') {
+                document.getElementById('addForm').style.display = 'block';
+            } else if (formType === 'update') {
+                document.getElementById('updateForm').style.display = 'block';
+            } else if (formType === 'delete'){
+                document.getElementById('deleteForm').style.display = 'block';
+            } else if(formType === 'deleteById'){
+                  document.getElementById('deleteByIDForm').style.display = 'block';
+            }
+        }
+        
+  // deleteTeam using id -----------------------
+          async function deleteTeamById() {
+                const Id = document.getElementById("t_idInDeleteByIdForm").value.trim();
+                const result = document.getElementById("deleteByIDFormResult");
+
+          try {
+                const response = await fetch(`deleteTeamById?t_id=${Id}`, {
+                method: "DELETE"
+              
+        });
+                const text = await response.text();
+                result.innerHTML = text;
+                result.style.color = "green";
+              } catch (error) {
+                result.textContent = "Error deleting Team. Please try again.";
+                result.style.color = "red";
+              }
+        }
+        
+
+//delete team using name and season -----
+            async function deleteTeamByNameAndSeason() {
+                const season = document.getElementById("deleteByName_Season").value.trim();
+                const name = document.getElementById("teamSelectForDelete").value.trim();
+                const result = document.getElementById("deleteByNameAndSeasonResult");
+
+          try {
+                const response = await fetch(`teamDeleteServlet?season=${season}&name=${name}`, {
+                method: "DELETE"
+              
+        });
+                const text = await response.text();
+                result.innerHTML = text;
+                result.style.color = "green";
+              } catch (error) {
+                result.textContent = "Error deleting Team. Please try again.";
+                result.style.color = "red";
+              }
+        }
+        
+   // Update team -------------------------------
+async function updateTeam() {
+    // Get values
+    const T_ID = document.getElementById("t_id_update").value;
+    const T_Name = document.getElementById("name_update").value;
+    const City = document.getElementById("city_update").value;
+    const Season = document.getElementById("updateSeason").value;
+    console.log(Season + City);
+     const result = document.getElementById("updateResult");
+
+    // JavaScript object
+    const data = {
+        T_ID: T_ID,
+        T_Name: T_Name,
+        City: City,
+        Season: Season
+    };
+
+    try {
+        const response = await fetch('teamUpdateServlet', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+           console.log("before result");
+        const text = await response.text();
+        console.log(text);
+                result.innerHTML = text;
+                result.style.color = "green";
+    } catch (error) {
+      
+        console.error(error);
+        result.innerHTML = "Failed to update team!!!! Re-Enter correct Team ID or Old season ";
+    }
+}
+
+//--------------------------------------------------------------------
+  // Fetch the seasons and populate the dropdown(on windows onLoad)
+ async function fetchSeasons() {
+     try {
+         const response = await fetch('viewSeason');
+         
+         if (!response.ok) {
+             throw new Error('Failed to fetch seasons');
+         }
+
+         const seasons = await response.json();
+         const seasonDropdown = document.getElementById('addSeason');
+         const updateSeasonDropdown = document.getElementById('updateSeason');
+         const deleteByName_SeasonDropdown = document.getElementById('deleteByName_Season');
+
+         
+         // Clear previous options
+         seasonDropdown.innerHTML = '<option value="">-- Select a Season --</option>';
+         updateSeasonDropdown.innerHTML = '<option value="">-- Select a Season --</option>';
+         deleteByName_SeasonDropdown.innerHTML = '<option value="">-- Select a Season --</option>';
+         
+         
+
+         if (seasons.length === 0) {
+             seasonDropdown.innerHTML = '<option value="">No seasons available</option>';
+             updateSeasonDropdown.innerHTML = '<option value="">-No seasons available-</option>';
+             deleteByName_SeasonDropdown.innerHTML = '<option value="">-No seasons available-</option>';
+         } else {
+         // for add 
+             seasons.forEach(season => {
+                 const option = document.createElement('option');
+                 option.value = season;
+                 option.textContent = season;
+                 seasonDropdown.appendChild(option);
+             });
+             
+             // for update
+             seasons.forEach(updateSeason =>{
+                      const option = document.createElement('option');
+                      option.value = updateSeason;
+                      option.textContent= updateSeason;
+                      updateSeasonDropdown.appendChild(option);
+             });
+             
+               // for delete by name
+             seasons.forEach(deleteByNameSeason =>{
+                      const option = document.createElement('option');
+                      option.value = deleteByNameSeason;
+                      option.textContent= deleteByNameSeason;
+                      deleteByName_SeasonDropdown.appendChild(option);
+             });
+        
+         }
+     } catch (error) {
+         console.error('Error fetching seasons:', error);
+     }
+ }
+
+ //---------------------------------------------------
+  //- list of team name and id
+async function loadTeams() {
+  try {
+    const res = await fetch("listTeamServlet");
+    const data = await res.json();
+
+    const dropdown = document.getElementById("teamSelectForDelete");
+     const dropdownForUpdate = document.getElementById("t_id_update");
+    
+    dropdown.innerHTML = "<option value=''>--Select Team--</option>";
+  
+    for (const [name, id] of Object.entries(data)) {
+      const option = document.createElement("option");
+      option.value = name;     
+      option.textContent = name;
+    //  console.log(id + name);
+      dropdown.appendChild(option);
+   
+    }
+    
+      for (const [name, id] of Object.entries(data)) {
+      const option = document.createElement("option");
+      option.value = id;     
+      option.textContent = name;
+    //  console.log(id + name);
+      dropdownForUpdate.appendChild(option);
+   
+    }
+    
+  } catch (error) {
+    console.error("Error loading teams:", error);
+  }
+}
+// load function on windows on load
+window.onload = function() {
+    fetchSeasons();  
+    loadTeams();    
+};
+
+   
+    </script>
+
+</body>
+</html>
+

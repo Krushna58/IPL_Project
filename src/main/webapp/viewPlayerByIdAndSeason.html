@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Players Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        .form-section {
+            background-color: white;
+            padding: 15px;
+            border: 1px solid #ccc;
+            max-width: 400px;
+            margin: auto;
+          
+        }
+
+        h3 {
+            text-align: center;
+            color:blue;
+        }
+        h2{
+         text-align: center;
+            color:blue;
+        
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        input[type="submit"] {
+            margin-top: 15px;
+            padding: 8px;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        a {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        
+        button {
+        padding: 10px 15px;
+        margin: 5px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+    </style>
+    
+    <script>
+    
+    
+       //- list of team name and id
+async function loadTeams() {
+  try {
+    const res = await fetch("listTeamServlet");
+    const data = await res.json();
+
+    const dropdown = document.getElementById("teamSelectForAdd");
+     
+    
+    dropdown.innerHTML = "<option value=''>--Select Team--</option>";
+    
+  
+
+    for (const [name, id] of Object.entries(data)) {
+      const option = document.createElement("option");
+      //passed as t_id to backend
+      option.value = id;     
+      option.textContent = name;
+    //  console.log(id + name);
+      dropdown.appendChild(option);
+   
+    }
+    
+  } catch (error) {
+    console.error("Error loading teams:", error);
+  }
+}
+
+    //--------------------------------------------------------------------
+  // Fetch the seasons and populate the dropdown(on windows onLoad)
+ async function fetchSeasons() {
+     try {
+         const response = await fetch('viewSeason');
+         
+         if (!response.ok) {
+             throw new Error('Failed to fetch seasons');
+         }
+
+         const seasons = await response.json();
+         const seasonDropdown = document.getElementById('season');
+         // Clear previous options
+         seasonDropdown.innerHTML = '<option value="">-- Select a Season --</option>';
+
+         if (seasons.length === 0) {
+             seasonDropdown.innerHTML = '<option value="">No seasons available</option>';
+           
+         } else {
+         // for add 
+             seasons.forEach(season => {
+                 const option = document.createElement('option');
+                 option.value = season;
+                 option.textContent = season;
+                 seasonDropdown.appendChild(option);
+             });
+            
+        
+         }
+     } catch (error) {
+         console.error('Error fetching seasons:', error);
+     }
+ }
+
+ //---------------
+ window.onload = function() {
+    fetchSeasons();  // Fetch and populate seasons
+    loadTeams();     // Load and populate teams
+};
+
+    
+    </script>
+</head>
+
+<body>
+
+<div id="playerForm" class="form-section">
+    <h3>View Players Using Team ID and Season</h3>
+
+    <form action="viewPlayerByIdAndSeason" method="get">
+         <label for = "teamSelectForAdd">Select Team:</label>
+            <select id="teamSelectForAdd" name="t_id"> </select>
+
+     <!--   <label for="season">Enter Season:</label>
+        <input type="number" id="season" name="season" required>
+    -->
+    
+           <label for="season">Select Season:  </label>
+          <select id="season" name="season" required> </select>
+          
+        <input type="submit" value="View Player">
+    </form>
+
+    <a href="players.html">Back to Menu</a>
+</div>
+
+</body>
+</html>
+
